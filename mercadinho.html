@@ -112,6 +112,72 @@
 
         // Executa ao carregar a página
         window.onload = atualizarCarrinho;
+
+                // Função para renderizar o carrinho na tela inicial
+        function atualizarCarrinho() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const lista = document.getElementById('itens-carrinho');
+            const totalSpan = document.getElementById('total-pontos');
+            
+            lista.innerHTML = '';
+            let total = 0;
+
+            if (carrinho.length === 0) {
+                lista.innerHTML = '<li style="color:#888;">Nenhum item adicionado.</li>';
+            } else {
+                carrinho.forEach((item, index) => {
+                    total += item.pontos;
+                    lista.innerHTML += `
+                        <li>
+                            ${item.nome} (${item.pontos} Pts)
+                            <button class="btn-excluir" onclick="removerItem(${index})">X</button>
+                        </li>
+                    `;
+                });
+            }
+            totalSpan.innerText = total;
+        }
+
+        function removerItem(index) {
+            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            carrinho.splice(index, 1);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+        }
+
+        // --- NOVA FUNÇÃO: Finalizar a Compra ---
+        function finalizarCompra() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            
+            // Valida se o carrinho está vazio
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio! Adicione produtos antes de finalizar.");
+                return;
+            }
+
+            // Calcula o total gasto
+            let total = 0;
+            carrinho.forEach(item => total += item.pontos);
+
+            // Mensagem de sucesso para o usuário
+            alert(`Compra realizada com sucesso!\nVocê utilizou ${total} pontos.`);
+
+            // Limpa o carrinho do localStorage e atualiza a tela
+            localStorage.removeItem('carrinho');
+            atualizarCarrinho();
+        }
+
+        // Executa ao carregar a página e mapeia o botão de finalizar
+        window.onload = function() {
+            atualizarCarrinho();
+            
+            // Vincula o clique do botão à função de finalização
+            const btnPagar = document.querySelector('.btn-pagar');
+            if (btnPagar) {
+                btnPagar.addEventListener('click', finalizarCompra);
+            }
+        };
     </script>
+
 </body>
 </html>
