@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f4f9; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { background-color: #ffb703; color: white; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; width: 100%; }
+        .detalhes-container { background: white; margin-top: 40px; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        .detalhes-container img { width: 150px; height: 150px; object-fit: cover; margin-bottom: 20px; }
+        .detalhes-container h1 { font-size: 24px; margin-bottom: 10px; color: #023047; }
+        .detalhes-container .pontos { font-size: 20px; color: #219ebc; font-weight: bold; margin-bottom: 15px; }
+        .detalhes-container .descricao { color: #666; margin-bottom: 25px; line-height: 1.5; }
+        .btn-adicionar { background-color: #023047; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; transition: 0.2s; }
+        .btn-adicionar:hover { background-color: #124057; }
+        .btn-voltar { background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 14px; cursor: pointer; width: 100%; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>Detalhes do Ingrediente</header>
+
+    <div class="detalhes-container">
+        <img src="https://placeholder.com" alt="Leite">
+        <!-- Modifique os dados abaixo para cada arquivo específico (ovos, farinha, acucar) -->
+        <h1 id="prod-nome">Leite Integral</h1>
+        <div class="pontos"><span id="prod-pontos">15</span> Pontos</div>
+        <p class="descricao">Leite integral de alta qualidade, ideal para a produção de receitas escolares e nutrição diária.</p>
+        
+        <!-- Botão solicitado: Adiciona e volta para a index -->
+        <button class="btn-adicionar" onclick="adicionarAoCarrinhoECapaturar()">Adicionar ao Carrinho e Voltar</button>
+        <button class="btn-voltar" onclick="window.location.href='mercadinho.html'">Voltar sem Salvar</button>
+    </div>
+
+    <script>
+        function adicionarAoCarrinhoECapaturar() {
+            // Pega as informações direto da página de detalhes
+            const nome = document.getElementById('prod-nome').innerText;
+            const pontos = parseInt(document.getElementById('prod-pontos').innerText);
+
+            // Busca o carrinho existente no navegador ou cria um vazio
+            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+            // Adiciona o novo item
+            carrinho.push({ nome: nome, pontos: pontos });
+
+            // Salva de volta no navegador
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+            // Redireciona de volta para a página inicial
+            window.location.href = 'mercadinho.html';
+        }
+    </script>
+</body>
+</html>
